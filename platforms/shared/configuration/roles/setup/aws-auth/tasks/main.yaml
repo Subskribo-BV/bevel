@@ -36,6 +36,12 @@
     tags:
       - aws_auth
 
+  - name: Print Kube Connection Variables MVK
+    debug:
+      msg:
+       - "Kube config path is {{ kubeconfig_path }}"
+       - "Kube context is {{ kubecontext }}"
+
   - name: Test Kubernetes connection
     k8s_info:
       kind: Pod

@@ -36,7 +36,8 @@
     --path={{ git_path }} \
     --version=v{{ flux_version }} \
     --namespace=flux-{{ network.env.type }} \
-    --context={{ kubecontext }}
+    --context={{ kubecontext }} \
+    --kubeconfig=/home/ubuntu/.kube/config
   when: git_protocol == "https"
   environment:
     KUBECONFIG: "{{ item.k8s.config_file }}"
@@ -54,6 +55,7 @@
     --version=v{{ flux_version }} \
     --namespace=flux-{{ network.env.type }} \
     --context={{ kubecontext }}
+    --kubeconfig=/home/ubuntu/bevel/build/config # MVK
   when: git_protocol == "ssh"
   environment:
     KUBECONFIG: "{{ item.k8s.config_file }}"
