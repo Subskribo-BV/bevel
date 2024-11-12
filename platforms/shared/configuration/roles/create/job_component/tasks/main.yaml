@@ -35,6 +35,15 @@
     kubeconfig: "{{ kubernetes.config_file }}"
   register: helm_check
 
+- name: Helm install job component diagnostics - MVK
+  debug:
+    msg:
+    - "Componant Name: {{ component_name }}"
+    - "Release Namespace: {{ component_ns }}"
+    - "Chart Ref: {{ playbook_dir }}/../../../{{ charts_dir }}/{{ charts[type] }}"
+    - "Value Files: {{ values_dir }}/{{ component_name }}.yaml"
+    - "Kube Config File: {{ kubernetes.config_file }}"
+
 # Run helm install 
 - name: Helm install {{ component_name }}
   kubernetes.core.helm:

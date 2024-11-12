@@ -24,6 +24,8 @@
     ssh-keyscan {{ git_host }} >> ~/.ssh/known_hosts
   when: git_protocol == "ssh"
 
+
+# --kubeconfig=/home/ubuntu/.kube/config
 - name: Install flux cli and bootstrap flux v2
   shell: |
     {{ bin_install_dir }}/flux bootstrap git \
@@ -36,8 +38,7 @@
     --path={{ git_path }} \
     --version=v{{ flux_version }} \
     --namespace=flux-{{ network.env.type }} \
-    --context={{ kubecontext }} \
-    --kubeconfig=/home/ubuntu/.kube/config
+    --context={{ kubecontext }} 
   when: git_protocol == "https"
   environment:
     KUBECONFIG: "{{ item.k8s.config_file }}"
