@@ -15,10 +15,13 @@ global:
   proxy:
     provider: none
     externalUrlSuffix: main.hlf.subskribo.be
-orderers:
-  - name: orderer1
-    adminAddress: orderer1.main.hlf.subskribo.be:7055 # Internal URI of the orderer ONS Admin service
-  - name: orderer2
-    adminAddress: orderer2.main.hlf.subskribo.be:7055
-  - name: orderer3
-    adminAddress: orderer3.main.hlf.subskribo.be:7055
+
+peer:
+  name: peer0
+  type: anchor
+  address: peer0.app.hlf.subskribo.be:443
+  localMspId: subsriboappMSP
+  logLevel: info
+  tlsStatus: true
+  channelName: AllChannel
+  ordererAddress: orderer1.main.hlf.subskribo.be:443
