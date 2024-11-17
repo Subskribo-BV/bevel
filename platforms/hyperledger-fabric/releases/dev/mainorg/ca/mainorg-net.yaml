@@ -1,0 +1,57 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: mainorg-net-ca
+  namespace: mainorg-net
+  annotations:
+    fluxcd.io/automated: "false"
+spec:
+  interval: 1m
+  releaseName: mainorg-net-ca
+  chart:
+    spec:
+      interval: 1m
+      sourceRef:
+        kind: GitRepository
+        name: flux-dev
+        namespace: flux-dev
+      chart: platforms/hyperledger-fabric/charts/fabric-ca-server   
+  values:
+    deployment:
+      annotations:
+    annotations:  
+      service:
+        - example1: example2
+      pvc:
+    metadata:
+      namespace: mainorg-net
+      images:
+        alpineutils: ghcr.io/hyperledger/bevel-alpine:latest
+        ca: ghcr.io/hyperledger/bevel-fabric-ca:latest
+    server:
+      name: ca
+      tlsstatus: true
+      admin: mainorg-admin
+        
+    storage:
+      storageclassname: mainorg-bevel-storageclass
+      storagesize: 512Mi 
+    vault:
+      role: vault-role
+      address: http://ec2-3-254-84-201.eu-west-1.compute.amazonaws.com:8200
+      authpath: devmainorg
+      secretcert: secretsv2/data/mainorg/ordererOrganizations/mainorg-net/ca?ca.mainorg-net-cert.pem
+      secretkey: secretsv2/data/mainorg/ordererOrganizations/mainorg-net/ca?mainorg-net-CA.key
+      secretadminpass: secretsv2/data/mainorg/credentials/mainorg-net/ca/mainorg?user
+      serviceaccountname: vault-auth
+      type: hashicorp
+      imagesecretname: ""
+    service:
+      servicetype: ClusterIP
+      ports:
+        tcp:
+          clusteripport: 7054
+    proxy:
+      provider: none
+      type: orderer
+      external_url_suffix: main.hlf.subskribo.be
